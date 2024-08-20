@@ -1,0 +1,28 @@
+#include <reg52.h>
+
+// Timer0 计时器
+void Timer0_Init()		//1毫秒@12.000MHz
+{
+	TMOD &= 0xF0;			//设置定时器模式
+	TMOD |= 0x01;			//设置定时器模式
+	TL0 = 0x00;				//设置定时初始值
+	TH0 = 0x00;				//设置定时初始值
+	TF0 = 0;				//清除TF0标志
+	TR0 = 0;				//定时器0不计时
+}
+
+void Timer0_SetCounter(unsigned int Counter)
+{
+	TH0=Counter/256;
+	TL0=Counter%256;
+}
+
+unsigned int Timer0_GetCounter()
+{
+	return (TH0<<8)|TL0;
+}
+
+void Timer0_Run(unsigned char Flag)
+{
+	TR0=Flag;
+}
